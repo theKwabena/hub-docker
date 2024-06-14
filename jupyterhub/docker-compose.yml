@@ -1,9 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-# JupyterHub docker compose configuration file
-version: "3"
-
 services:
   hub:
     build:
@@ -24,8 +21,10 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:rw"
       # Bind Docker volume on host for JupyterHub database and cookie secrets
       - "jupyterhub-data:/data"
+      # SSL CERTS FOR JUPYTER
+      - "/etc/ssl/:/etc/ssl:ro"
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       # This username will be a JupyterHub admin
       JUPYTERHUB_ADMIN: admin
@@ -34,7 +33,7 @@ services:
       # JupyterHub will spawn this Notebook image for users
       DOCKER_NOTEBOOK_IMAGE: quay.io/jupyter/base-notebook:latest
       # Notebook directory inside user image
-      DOCKER_NOTEBOOK_DIR: /home/jovyan/work
+      DOCKER_NOTEBOOK_DIR: /home/knust/notebooks
 
 volumes:
   jupyterhub-data:
